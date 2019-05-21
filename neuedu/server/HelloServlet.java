@@ -2,6 +2,7 @@ package com.neuedu.server;
 
 import com.neuedu.dao.UserDao;
 import com.neuedu.dao.UserDaoImpl;
+import com.neuedu.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,10 +20,10 @@ public class HelloServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String user = req.getParameter("username");
         String psw = req.getParameter("psw");
-        ud.register(user,psw);
+        ud.register(new User(user,psw));
         //跳转到登录页面
         req.getRequestDispatcher("login.jsp").forward(req,resp);
     }

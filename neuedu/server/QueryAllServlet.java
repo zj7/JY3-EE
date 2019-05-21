@@ -1,6 +1,5 @@
 package com.neuedu.server;
 
-
 import com.neuedu.dao.UserDao;
 import com.neuedu.dao.UserDaoImpl;
 import com.neuedu.entity.User;
@@ -11,26 +10,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(name = "LoginServlet",urlPatterns = "/Login.do")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "QueryAllServlet",urlPatterns = "/queryAll.do")
+public class QueryAllServlet extends HttpServlet {
     private UserDao ud;
+
     @Override
     public void init() throws ServletException {
         ud = new UserDaoImpl();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String user = request.getParameter("username");
-        String psw = request.getParameter("psw");
-        User oneUser = new User();
-        oneUser.setUsername(user);
-        oneUser.setPassword(psw);
-        if (true == ud.login(oneUser)){
-            //跳转到登录成功页面
-            request.getRequestDispatcher("loginSuccess.jsp").forward(request,response);
-        }else{
-            request.getRequestDispatcher("login.jsp").forward(request,response);
-        }
+        List<User> users = ud.queryAll();
+        request.setAttribute("username",users);
+//        request.setAttribute("password",users);
+        request.getRequestDispatcher("allMsg.jsp").forward(request,response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request, response);
     }
 }

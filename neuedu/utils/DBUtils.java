@@ -1,9 +1,7 @@
 package com.neuedu.utils;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 public class DBUtils {
@@ -38,5 +36,36 @@ public class DBUtils {
             e.printStackTrace();
         }
         return conn;
+    }
+
+    //关闭连接的方法
+    public static void closeConn(Connection conn){
+        if(null != conn){
+            try {
+                conn.close();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    //关闭PreparedStatement的方法
+    public static void closePstmt(PreparedStatement pstmt){
+        if(null != pstmt){
+            try {
+                pstmt.close();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    //关闭ResultSet的方法
+    public static void closeRs(ResultSet rs){
+        if(null != rs){
+            try {
+                rs.close();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
     }
 }
